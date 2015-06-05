@@ -159,7 +159,7 @@ class GROUNDWATER:
     def __init__(self):
         self.SUBCNAME = ''
         self.AQNAME = ''
-        self.NODE = ''
+        self.LOADINGNODE = ''
         self.SURFACEEL = ''
         self.A1 = ''
         self.B1 = ''
@@ -198,7 +198,7 @@ class STORAGE:
         self.YMAX = ''
         self.Y0 = ''
         self.APOND = ''
-        self.FEVAP
+        self.FEVAP = ''
         self.TABULAR = False
         self.ACURVE = ''
         self.FUNCTIONAL = True
