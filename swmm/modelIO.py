@@ -250,7 +250,10 @@ class HYDROLOGY:
         sub.polyheight = 10
         sub.xsep = 15
         sub.ysep = 15
-
+        
+        sub.updatePolyGrid()
+        
+    def updatePolyGrid(sub):
         #Polygon grid spacing
         sub.gridx = {1:0*sub.xsep, 2:1*sub.xsep, 3:2*sub.xsep, 4:3*sub.xsep,\
                      5:0*sub.xsep, 6:1*sub.xsep, 7:2*sub.xsep, 8:3*sub.xsep,\
@@ -258,6 +261,21 @@ class HYDROLOGY:
         sub.gridy = {1:2*sub.ysep, 2:2*sub.ysep, 3:2*sub.ysep, 4:2*sub.ysep,\
                      5:1*sub.ysep, 6:1*sub.ysep, 7:1*sub.ysep, 8:1*sub.ysep,\
                      9:0*sub.ysep, 10:0*sub.ysep,11:0*sub.ysep,12:0*sub.ysep}
+
+    def updatePolyCirc(sub, radius = 40):
+        from math import pi, sin, cos
+        import numpy as np
+
+        sub.radius = radius        
+        Positions = np.linspace(0, 2*pi, 13)
+        sub.gridx = {}
+        sub.gridy = {}
+        for i in range(1,13):
+            sub.gridx[i] = sin(Positions[i-1])*sub.radius
+            sub.gridy[i] = cos(Positions[i-1])*sub.radius
+            
+        
+        
         
     def add_HYDROLOGY(sub, SUBCNAME, RGAGE, OUTID, CLAJunction, AREA, PERCENT_IMPERV,\
                       WIDTH, ROUTETO = 'Outlet', SLOPE = 0.1, CLENGTH = 0, SNOWPACK = 0,\
