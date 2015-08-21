@@ -358,6 +358,39 @@ class HYDROLOGY:
             sub.polygons[SUBCNAME].PolyCoord.append([NodeXcoord + sub.xOffset_all + sub.gridx[gridpos] - 0.5* sub.polywidth ,\
                                                      NodeYcoord + sub.yOffset_all + sub.gridy[gridpos] - 0.5* sub.polyheight ])        
 
+    def _add_polygonUL(sub, SUBCNAME, CLAJunction, gridpos):
+        if str(CLAJunction) in sub.self.Nodes.nodetypedict.keys():
+            sub.polygons[SUBCNAME] = POLYGONS()
+            sub.polygons[SUBCNAME].SUBCNAME = SUBCNAME
+            NodeXcoord = int(sub.self.Nodes.coordinates[str(CLAJunction)].xcoord)
+            NodeYcoord = int(sub.self.Nodes.coordinates[str(CLAJunction)].ycoord)
+            #NW
+            sub.polygons[SUBCNAME].PolyCoord.append([NodeXcoord + sub.xOffset_all + sub.gridx[gridpos] - 0.5* sub.polywidth ,\
+                                                     NodeYcoord + sub.yOffset_all + sub.gridy[gridpos] + 0.5* sub.polyheight ])
+            #NE
+            sub.polygons[SUBCNAME].PolyCoord.append([NodeXcoord + sub.xOffset_all + sub.gridx[gridpos] + 0.45* sub.polywidth ,\
+                                                     NodeYcoord + sub.yOffset_all + sub.gridy[gridpos] + 0.5* sub.polyheight ])
+            #SW
+            sub.polygons[SUBCNAME].PolyCoord.append([NodeXcoord + sub.xOffset_all + sub.gridx[gridpos] - 0.5* sub.polywidth ,\
+                                                     NodeYcoord + sub.yOffset_all + sub.gridy[gridpos] - 0.45* sub.polyheight ])
+            
+    def _add_polygonLR(sub, SUBCNAME, CLAJunction, gridpos):
+        if str(CLAJunction) in sub.self.Nodes.nodetypedict.keys():
+            sub.polygons[SUBCNAME] = POLYGONS()
+            sub.polygons[SUBCNAME].SUBCNAME = SUBCNAME
+            NodeXcoord = int(sub.self.Nodes.coordinates[str(CLAJunction)].xcoord)
+            NodeYcoord = int(sub.self.Nodes.coordinates[str(CLAJunction)].ycoord)
+            #NE
+            sub.polygons[SUBCNAME].PolyCoord.append([NodeXcoord + sub.xOffset_all + sub.gridx[gridpos] + 0.5* sub.polywidth ,\
+                                                     NodeYcoord + sub.yOffset_all + sub.gridy[gridpos] + 0.45* sub.polyheight ])
+            #SE
+            sub.polygons[SUBCNAME].PolyCoord.append([NodeXcoord + sub.xOffset_all + sub.gridx[gridpos] + 0.5* sub.polywidth ,\
+                                                     NodeYcoord + sub.yOffset_all + sub.gridy[gridpos] - 0.5* sub.polyheight ])
+            #SW
+            sub.polygons[SUBCNAME].PolyCoord.append([NodeXcoord + sub.xOffset_all + sub.gridx[gridpos] - 0.45* sub.polywidth ,\
+                                                     NodeYcoord + sub.yOffset_all + sub.gridy[gridpos] - 0.5* sub.polyheight ]) 
+
+
 
 class OPTIONSset:
     def __init__(self):
