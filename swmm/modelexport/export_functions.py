@@ -38,7 +38,7 @@ def print_Model(self):
         for scatch in self.Hydrology.subcatchments.keys():
             SC = self.Hydrology.subcatchments[scatch]
             print '\t'.join([str(SC.SUBCNAME),str(SC.RGAGE),str(SC.OUTID),str(SC.AREA),str(SC.PERCENT_IMPERV),\
-                             str(SC.WIDTH),str(SC.SLOPE),str(SC.CLENGTH),str(SC.SNOWPACK)])
+                             str(SC.WIDTH),str(SC.SLOPE),str(SC.CLENGTH)])#,str(SC.SNOWPACK)]) #< - For now ignoreing snow pack
 
         print '\n[SUBAREAS]'
         for scatch in self.Hydrology.subareas.keys():
@@ -83,6 +83,40 @@ def print_Model(self):
 def export_Model(self, ModelFile = 'Testing.inp'):
     with open(ModelFile, 'w') as f:
 ##        f.write('testing\n')
+        if hasattr(self, 'Options') and True == False:
+            f.write('[OPTIONS]'+'\n')
+            f.write('FLOW_UNITS '+ self.Options.FLOW_UNITS+'\n')
+            f.write('INFILTRATION ' + self.Options.INFILTRATION+'\n') 
+            f.write('FLOW_ROUTING ' +self.Options.FLOW_ROUTING+'\n')  
+            f.write('LINK_OFFSETS ' +self.Options.LINK_OFFSETS+'\n')  
+            f.write('FORCE_MAIN_EQUATION ' +self.Options.FORCE_MAIN_EQUATION+'\n')
+            f.write('IGNORE_RAINFALL ' +self.Options.IGNORE_RAINFALL+'\n') 
+            f.write('IGNORE_SNOWMELT ' +self.Options.IGNORE_SNOWMELT+'\n')  
+            f.write('IGNORE_GROUNDWATER '+ self.Options.IGNORE_GROUNDWATER+'\n') 
+            f.write('IGNORE_ROUTING '+ self.Options.IGNORE_ROUTING+'\n')
+            f.write('IGNORE_QUALITY '+ self.Options.IGNORE_QUALITY+'\n') 
+            f.write('ALLOW_PONDING '+ self.Options.ALLOW_PONDING+'\n')  
+            f.write('SKIP_STEADY_STATE '+ self.Options.SKIP_STEADY_STATE+'\n')
+            f.write('START_DATE '+ self.Options.START_DATE+'\n')
+            f.write('START_TIME '+ self.Options.START_TIME+'\n') 
+            f.write('END_DATE '+ self.Options.END_DATE+'\n')
+            f.write('END_TIME '+ self.Options.END_TIME+'\n') 
+            f.write('REPORT_START_DATE '+ self.Options.REPORT_START_DATE+'\n')
+            f.write('REPORT_START_TIME '+ self.Options.REPORT_START_TIME+'\n') 
+            f.write('SWEEP_START '+ self.Options.SWEEP_START+'\n')
+            f.write('SWEEP_END '+ self.Options.SWEEP_END+'\n')
+            f.write('DRY_DAYS '+ self.Options.DRY_DAYS+'\n') 
+            f.write('REPORT_STEP '+ self.Options.REPORT_STEP+'\n')
+            f.write('WET_STEP '+ self.Options.WET_STEP+'\n')
+            f.write('DRY_STEP '+ self.Options.DRY_STEP+'\n') 
+            f.write('ROUTING_STEP '+ self.Options.ROUTING_STEP+'\n')
+            f.write('LENGTHENING_STEP '+ self.Options.LENGTHENING_STEP+'\n')
+            f.write('VARIABLE_STEP '+ self.Options.VARIABLE_STEP+'\n')
+            f.write('INERTIAL_DAMPENING '+ self.Options.INERTIAL_DAMPENING+'\n') 
+            f.write('NORMAL_FLOW_LIMITED '+ self.Options.NORMAL_FLOW_LIMITED+'\n')
+            f.write('MIN_SURFAREA '+ self.Options.MIN_SURFAREA+'\n')
+            f.write('MIN_SLOPE '+ self.Options.MIN_SLOPE+'\n')
+            f.write('TEMPDIR '+ self.Options.TEMPDIR+'\n')            
         if hasattr(self, 'Nodes'):
             f.write('[JUNCTIONS]'+'\n')
             for junc in self.Nodes.junctions.keys():
@@ -100,7 +134,7 @@ def export_Model(self, ModelFile = 'Testing.inp'):
             for scatch in self.Hydrology.subcatchments.keys():
                 SC = self.Hydrology.subcatchments[scatch]
                 f.write('\t'.join([str(SC.SUBCNAME),str(SC.RGAGE),str(SC.OUTID),str(SC.AREA),str(SC.PERCENT_IMPERV),\
-                                 str(SC.WIDTH),str(SC.SLOPE),str(SC.CLENGTH),str(SC.SNOWPACK)])+'\n')
+                                 str(SC.WIDTH),str(SC.SLOPE),str(SC.CLENGTH)])+'\n') #,str(SC.SNOWPACK) removed snow back for time being
 
             f.write('\n[SUBAREAS]'+'\n')
             for scatch in self.Hydrology.subareas.keys():

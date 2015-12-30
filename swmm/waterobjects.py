@@ -129,8 +129,8 @@ class INFILTRATION:
         self.DRYTIME = None
         self.MAXINF = None
         #GREEN-AMPT
-        self.SUCTION = None
-        self.INITDEF = None
+        self.SUCTION = ''
+        self.INITDEF = ''
         #CURVE-NUMBER
         self.CURVENO = None        
         #GA and CN
