@@ -36,6 +36,12 @@ class MODELOBJECTS:
         Instantiates Nodes Object
         '''
         self.Nodes = NODES(self)
+
+    def Eval_Links(self):
+        '''
+        Instantites Links Object
+        '''
+        self.Links = LINKS(self)
         
     def Eval_Hydrology(self):
         '''
@@ -53,7 +59,12 @@ class MODELOBJECTS:
             self.GroundwaterFlow = GROUNDWATERFLOW(self)
         else:
             pass
-##            self.Exceptions.
+        
+    def Eval_RemainingObjects(self):
+        '''
+        Instantiates Nodes Object
+        '''
+        self.Remaining = REMAINING(self)
             
 
 
@@ -118,6 +129,116 @@ class GROUNDWATERFLOW:
         sub.aquifers[AQNAME].WATERTABLEELEVATION = WATERTABLEELEVATION
         sub.aquifers[AQNAME].UNSATZONEMOISTURE = UNSATZONEMOISTURE
         sub.aquifers[AQNAME].UPPEREVAPPATTERN = UPPEREVAPPATTERN
+
+
+class LINKS:
+    '''
+    Currently setup for conduits, only (BM 1/24/2015). 
+    '''
+    def __init__(sub, self):
+
+        sub.linktypedict = {}
+        
+        sub.conduits = {}
+        sub.weirs = {}
+        sub.orifices = {}
+        sub.outlets = {}
+
+        sub.xsections = {}
+        sub.losses = {}
+        sub.transects = {}
+        
+    def add_LINK(sub, LINKNAME, INLETNODE, OUTLETNODE, LENGTH, MANNINGN, INLETOFFSET, OUTLETOFFSET, INITIALFLOW,\
+                 MAXFLOW, SHAPE='CIRCULAR', GEOM1=0, GEOM2=0, GEOM3=0, GEOM4=0, BARRELS=1, CLASS = 'CONDUIT'):
+        if CLASS == 'CONDUIT': sub._add_conduit(LINKNAME, INLETNODE, OUTLETNODE,\
+                                                LENGTH, MANNINGN, INLETOFFSET, OUTLETOFFSET, INITIALFLOW, MAXFLOW,\
+                                                SHAPE, GEOM1, GEOM2, GEOM3, GEOM4, BARRELS)
+##        if CLASS == 'WEIR': sub._add_weir(NODENAME, ELEVATION,\
+##                                                XCOORD, YCOORD, TYPE,\
+##                                                TSERIES, GATE)
+##        if CLASS == 'ORIFICE': sub._add_orifice(NODENAME, ELEVATION, XCOORD, YCOORD, YMAX, Y0, PONDINGAREA,\
+##                                                FEVAP, TABULAR, ACURVE, FUNCTIONAL, SH, HC, IMD)
+##        if CLASS == 'OUTLET': sub._add_outlet(NODENAME, ELEVATION, XCOORD, YCOORD, YMAX,\
+##                                                  Y0, YSURCHARGE, PONDINGAREA)
+    def add_TRANSECT(sub, TRANSNAME,LOBStation,ROBStation,LOBN,ROBN,CHANNELN,\
+                     LeftEncrStation=0,RightEncrStation=0,STATIONS=0,ELEVATIONS=0,MEANDER=0,\
+                     ZCOORD = [], XCOORD=[], Area = [],Hrad = [],Width = []):
+        sub.transects[TRANSNAME] = TRANSECTS()
+        sub.transects[TRANSNAME].TRANSNAME = TRANSNAME
+        sub.transects[TRANSNAME].LOBStation = float(LOBStation)
+        sub.transects[TRANSNAME].ROBStation = float(ROBStation)
+        sub.transects[TRANSNAME].LOBN = float(LOBN)
+        sub.transects[TRANSNAME].ROBN = float(ROBN)
+        sub.transects[TRANSNAME].CHANNELN = float(CHANNELN)
+        sub.transects[TRANSNAME].LeftEncrStation = float(LeftEncrStation)
+        sub.transects[TRANSNAME].RightEncrStation = float(RightEncrStation)
+        sub.transects[TRANSNAME].STATIONS = float(STATIONS)
+        sub.transects[TRANSNAME].ELEVATIONS = float(ELEVATIONS)
+        sub.transects[TRANSNAME].MEANDER = float(MEANDER)
+        sub.transects[TRANSNAME].ZCOORD = [float(val) for val in ZCOORD]
+        sub.transects[TRANSNAME].XCOORD = [float(val) for val in XCOORD]
+        sub.transects[TRANSNAME].Area = [float(val) for val in Area]
+        sub.transects[TRANSNAME].Hrad = [float(val) for val in Hrad]
+        sub.transects[TRANSNAME].Width = [float(val) for val in Width]
+                     
+    def remove_LINK(sub,LINKNAME):
+        sub.conduits.pop(LINKNAME,None)
+        sub.weirs.pop(LINKNAME,None)
+        sub.orifices.pop(LINKNAME,None)
+        sub.outlets.pop(LINKNAME,None)
+        sub.linktypedict.pop(LINKNAME,None)
+        sub.xsections.pop(LINKNAME,None)
+        sub.losses.pop(LINKNAME,None)
+
+    def _add_conduit(sub, LINKNAME, INLETNODE, OUTLETNODE, LENGTH, MANNINGN, \
+                     INLETOFFSET, OUTLETOFFSET,INITIALFLOW, MAXFLOW,\
+                     SHAPE, GEOM1, GEOM2, GEOM3, GEOM4, BARRELS):
+        assert LINKNAME not in sub.linktypedict.keys()
+        #udpate link type dict
+        sub.linktypedict[LINKNAME] = 'CONDUIT'
+        #assign link params
+        
+        sub.conduits[LINKNAME] = CONDUITS()
+        sub.conduits[LINKNAME].LINKNAME = LINKNAME
+        sub.conduits[LINKNAME].INLETNODE = INLETNODE
+        sub.conduits[LINKNAME].OUTLETNODE = OUTLETNODE
+        sub.conduits[LINKNAME].LENGTH = float(LENGTH)
+        sub.conduits[LINKNAME].MANNINGN = float(MANNINGN)
+        sub.conduits[LINKNAME].INLETOFFSET = float(INLETOFFSET)
+        sub.conduits[LINKNAME].OUTLETOFFSET = float(OUTLETOFFSET)
+        sub.conduits[LINKNAME].INITIALFLOW = float(INITIALFLOW)
+        sub.conduits[LINKNAME].MAXFLOW = float(MAXFLOW)
+
+        sub.xsections[LINKNAME] = XSECTIONS()
+        sub.xsections[LINKNAME].LINKNAME = LINKNAME
+        sub.xsections[LINKNAME].SHAPE = SHAPE
+        try:
+            GEOM1 = float(GEOM1)
+        except:
+            pass        
+        sub.xsections[LINKNAME].GEOM1 = GEOM1
+        sub.xsections[LINKNAME].GEOM2 = float(GEOM2)
+        sub.xsections[LINKNAME].GEOM3 = float(GEOM3)
+        sub.xsections[LINKNAME].GEOM4 = float(GEOM4)
+        sub.xsections[LINKNAME].BARRELS = int(BARRELS)
+
+    def UpdateXSection(sub, LINKNAME, SHAPE, GEOM1, GEOM2, GEOM3, GEOM4, BARRELS):
+        sub.xsections[LINKNAME].LINKNAME = LINKNAME
+        sub.xsections[LINKNAME].SHAPE = SHAPE
+        try:
+            GEOM1 = float(GEOM1)
+        except:
+            pass
+        sub.xsections[LINKNAME].GEOM1 = GEOM1
+        sub.xsections[LINKNAME].GEOM2 = float(GEOM2)
+        sub.xsections[LINKNAME].GEOM3 = float(GEOM3)
+        sub.xsections[LINKNAME].GEOM4 = float(GEOM4)
+        sub.xsections[LINKNAME].BARRELS = int(BARRELS)
+        
+class REMAINING:
+    def __init__(sub, self):
+        return
+
 
 class NODES:
     '''

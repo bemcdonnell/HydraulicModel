@@ -218,3 +218,46 @@ class COORDINATES:
         self.NODENAME = ''
         self.xcoord = ''
         self.ycoord = ''
+
+class CONDUITS:
+    def __init__(self):
+        self.LINKNAME = ''
+        self.INLETNODE = ''
+        self.OUTLETNODE = ''
+        self.LENGTH = ''
+        self.MANNINGN = ''
+        self.INLETOFFSET = ''
+        self.OUTLETOFFSET = ''
+        self.INITIALFLOW = ''
+        self.MAXFLOW = ''
+
+XSectionShapes = ['CIRCULAR','IRREGULAR']
+
+class XSECTIONS:
+    def __init__(self):
+        self.LINKNAME = ''
+        self.SHAPE = ''
+        self.GEOM1 = None
+        self.GEOM2 = 0
+        self.GEOM3 = 0
+        self.GEOM4 = 0
+        self.BARRELS = 1
+
+class TRANSECTS:
+    def __init__(self):
+        self.TRANSNAME = ''
+        self.LOBStation = None
+        self.ROBStation = None
+        self.LOBN = ''
+        self.ROBN = ''
+        self.CHANNELN = ''
+        self.LeftEncrStation = ''
+        self.RightEncrStation = ''
+        self.STATIONS = ''
+        self.ELEVATIONS = ''
+        self.MEANDER = ''
+        self.ZCOORD = []
+        self.XCOORD = []
+        self.Area = []
+        self.Hrad = []
+        self.Width = []        
